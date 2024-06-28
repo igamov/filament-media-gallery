@@ -42,6 +42,51 @@ MediaGallery::make('gallery')
       ->multiple()
 ```
 
+### In Filament Tables
+
+To use the media library image column:
+
+```php
+use Igamov\FilamentMediaGallery\Tables\Columns\MediaGalleryImageColumn;;
+
+SpatieMediaLibraryImageColumn::make('avatar')
+```
+
+The media library image column supports all the customization options of the [original image column](https://filamentphp.com/docs/tables/columns/image).
+
+### Passing a collection
+
+Optionally, you may pass a `collection()`:
+
+```php
+use Igamov\FilamentMediaGallery\Tables\Columns\MediaGalleryImageColumn;;
+
+MediaGalleryImageColumn::make('avatar')
+    ->collection('avatars')
+```
+
+The [collection](https://spatie.be/docs/laravel-medialibrary/working-with-media-collections/simple-media-collections) allows you to group files into categories.
+
+By default, only media without a collection (using the `default` collection) will be shown. If you want to show media from all collections, you can use the `allCollections()` method:
+
+```php
+use Igamov\FilamentMediaGallery\Tables\Columns\MediaGalleryImageColumn;;
+
+MediaGalleryImageColumn::make('avatar')
+    ->allCollections()
+```
+
+### Using conversions
+
+You may also specify a `conversion()` to load the file from showing it in the table, if present:
+
+```php
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
+
+MediaGalleryImageColumn::make('avatar')
+    ->conversion('thumb')
+```
+
 ## Changelog
 
 Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
