@@ -7,8 +7,8 @@ namespace Igamov\FilamentMediaGallery\Collections;
  */
 class AllMediaCollections
 {
-  public static function make(): static
-  {
-    return app(static::class);
-  }
+    public static function make(): static
+    {
+        return app(static::class);
+    }
 }

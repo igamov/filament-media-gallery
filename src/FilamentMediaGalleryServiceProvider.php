@@ -8,13 +8,13 @@ use Filament\Support\Assets\Css;
 use Filament\Support\Assets\Js;
 use Filament\Support\Facades\FilamentAsset;
 use Filament\Support\Facades\FilamentIcon;
+use Igamov\FilamentMediaGallery\Commands\FilamentMediaGalleryCommand;
+use Igamov\FilamentMediaGallery\Testing\TestsFilamentMediaGallery;
 use Illuminate\Filesystem\Filesystem;
 use Livewire\Features\SupportTesting\Testable;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Igamov\FilamentMediaGallery\Commands\FilamentMediaGalleryCommand;
-use Igamov\FilamentMediaGallery\Testing\TestsFilamentMediaGallery;
 
 class FilamentMediaGalleryServiceProvider extends PackageServiceProvider
 {
@@ -76,13 +76,13 @@ class FilamentMediaGalleryServiceProvider extends PackageServiceProvider
         FilamentIcon::register($this->getIcons());
 
         // Handle Stubs
-//        if (app()->runningInConsole()) {
-//            foreach (app(Filesystem::class)->files(__DIR__ . '/../stubs/') as $file) {
-//                $this->publishes([
-//                    $file->getRealPath() => base_path("stubs/filament-media-gallery/{$file->getFilename()}"),
-//                ], 'filament-media-gallery-stubs');
-//            }
-//        }
+        //        if (app()->runningInConsole()) {
+        //            foreach (app(Filesystem::class)->files(__DIR__ . '/../stubs/') as $file) {
+        //                $this->publishes([
+        //                    $file->getRealPath() => base_path("stubs/filament-media-gallery/{$file->getFilename()}"),
+        //                ], 'filament-media-gallery-stubs');
+        //            }
+        //        }
 
         // Testing
         Testable::mixin(new TestsFilamentMediaGallery());
@@ -101,7 +101,7 @@ class FilamentMediaGalleryServiceProvider extends PackageServiceProvider
         return [
             AlpineComponent::make('filament-media-gallery', __DIR__ . '/../resources/dist/components/filament-media-gallery.js'),
             Css::make('filament-media-gallery-styles', __DIR__ . '/../resources/dist/filament-media-gallery.css'),
-//            Js::make('filament-media-gallery-scripts', __DIR__ . '/../resources/dist/filament-media-gallery.js'),
+            //            Js::make('filament-media-gallery-scripts', __DIR__ . '/../resources/dist/filament-media-gallery.js'),
         ];
     }
 

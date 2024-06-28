@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 // translations for Igamov/FilamentMediaGallery
 return [
     'Drag&Drop' => 'Drag & Drop or Click Here',
