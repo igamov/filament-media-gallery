@@ -162,10 +162,8 @@ class MediaGallery extends BaseFileUpload
 
             /** @var ?Media $media */
             $media = $this->getRecord()->getRelationValue('media')->firstWhere('uuid', $file);
-            $thumbUrl = null;
-            $srcUrl = null;
-            $srcUrl ??= $media?->getUrl();
-            $thumbUrl ??= $media?->getUrl($this->getThumb() ?? '');
+            $srcUrl = $media?->getUrl();
+            $thumbUrl = $media?->getUrl($this->getThumb() ?? '');
             $files[$fileKey] = [
                 'name' => $media?->getAttributeValue('file_name') ?? $media?->getAttributeValue('name'),
                 'alt' => $media?->getAttributeValue('file_name') ?? $media?->getAttributeValue('name'),
