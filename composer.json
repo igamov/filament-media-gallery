@@ -1,6 +1,6 @@
 {
     "name": "igamov/filament-media-gallery",
-    "description": "This is my package filament-media-gallery",
+    "description": "This package add support spatie media library to filament V3.x",
     "keywords": [
         "igamov",
         "laravel",
