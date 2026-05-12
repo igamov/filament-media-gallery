@@ -213,7 +213,7 @@ class MediaGallery extends BaseFileUpload
 
     public function getAcceptFileText(): string
     {
-        return $this->acceptedFileText ?? config('gallery-json-media.form.default.image_accepted_text');
+        return $this->acceptedFileText ?? config('media-gallery.form.default.image_accepted_text');
     }
 
     public function getCustomHeaders(): array

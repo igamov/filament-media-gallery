@@ -85,7 +85,7 @@ class FilamentMediaGalleryServiceProvider extends PackageServiceProvider
         //        }
 
         // Testing
-        Testable::mixin(new TestsFilamentMediaGallery());
+        Testable::mixin(new TestsFilamentMediaGallery);
     }
 
     protected function getAssetPackageName(): ?string

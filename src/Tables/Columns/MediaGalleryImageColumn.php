@@ -161,12 +161,21 @@ class MediaGalleryImageColumn extends ImageColumn
             return $query;
         }
 
-        /** @phpstan-ignore-next-line */
-        $modifyMediaQuery = fn (Builder | Relation $query) => $query->ordered();
+        $modifyMediaQuery = static function (Builder | Relation $query): Builder | Relation {
+            $column = 'order_column';
+
+            if ($query instanceof Relation) {
+                return $query->orderBy($query->getRelated()->qualifyColumn($column));
+            }
+
+            return $query->orderBy($column);
+        };
 
         if ($this->hasRelationship($query->getModel())) {
+            $relationshipName = $this->getRelationshipName($query->getModel());
+
             return $query->with([
-                "{$this->getRelationshipName()}.media" => $modifyMediaQuery,
+                "{$relationshipName}.media" => $modifyMediaQuery,
             ]);
         }
 

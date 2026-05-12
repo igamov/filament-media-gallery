@@ -6,17 +6,32 @@
 [![Total Downloads](https://img.shields.io/packagist/dt/igamov/filament-media-gallery.svg?style=flat-square)](https://packagist.org/packages/igamov/filament-media-gallery)
 
 
-This package add support spatie media library to filament V3.x
+This package adds Spatie Media Library integration for **Filament**. Version **2.x** targets **Filament v5** (PHP 8.2+). For **Filament v3**, use **1.x**.
 
 I've taken inspiration from the following plugins: [Json Media](https://github.com/webplusmultimedia/filament-json-media) & [Filament Spatie Media Library](https://github.com/filamentphp/spatie-laravel-media-library-plugin).
 
 [![filament-media-gallery.png](https://i.postimg.cc/Tw52W9xd/filament-media-gallery.png)](https://postimg.cc/KkFh6t4w)
+## Requirements
+
+| Package version | Filament | PHP     |
+|-----------------|----------|---------|
+| **2.x**         | **5.x**  | **8.2+** |
+| 1.x             | 3.x      | 8.1+    |
+
 ## Installation
 
-You can install the package via composer:
+You can install the package via Composer:
+
+**Filament v5:**
 
 ```bash
-composer require igamov/filament-media-gallery
+composer require igamov/filament-media-gallery:^2.0
+```
+
+**Filament v3 (legacy):**
+
+```bash
+composer require igamov/filament-media-gallery:^1.0
 ```
 
 Optionally, you can publish the views using
@@ -52,7 +67,7 @@ use Igamov\FilamentMediaGallery\Tables\Columns\MediaGalleryImageColumn;
 MediaGalleryImageColumn::make('avatar')
 ```
 
-The media gallery image column supports all the customization options of the [original image column](https://filamentphp.com/docs/tables/columns/image).
+The media gallery image column supports all the customization options of the [original image column](https://filamentphp.com/docs/5.x/tables/columns/image).
 
 ### Passing a collection
 

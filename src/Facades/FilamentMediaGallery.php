@@ -6,7 +6,7 @@ use Igamov\FilamentMediaGallery\Form\MediaGallery;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @see \Igamov\FilamentMediaGallery\Form\MediaGallery
+ * @see MediaGallery
  */
 class FilamentMediaGallery extends Facade
 {
