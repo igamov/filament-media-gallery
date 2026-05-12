@@ -41,6 +41,10 @@ class MediaGalleryImageColumn extends ImageColumn
             }
 
             foreach ($records as $record) {
+                if (! method_exists($record, 'getFallbackMediaUrl')) {
+                    continue;
+                }
+
                 $url = $record->getFallbackMediaUrl($collection, $column->getConversion() ?? '');
 
                 if (blank($url)) {
@@ -129,38 +133,40 @@ class MediaGalleryImageColumn extends ImageColumn
      */
     public function getState(): array
     {
-        $record = $this->getRecord();
+        return $this->cacheState(function (): array {
+            $record = $this->getRecord();
 
-        if ($this->hasRelationship($record)) {
-            $record = $this->getRelationshipResults($record);
-        }
+            if ($this->hasRelationship($record)) {
+                $record = $this->getRelationshipResults($record);
+            }
 
-        $records = Arr::wrap($record);
+            $records = Arr::wrap($record);
 
-        $state = [];
+            $state = [];
 
-        $collection = $this->getCollection() ?? 'default';
+            $collection = $this->getCollection() ?? 'default';
 
-        foreach ($records as $record) {
-            /** @var Model $record */
-            $state = [
-                ...$state,
-                ...$record->getRelationValue('media')
-                    ->when(
-                        ! $collection instanceof AllMediaCollections,
-                        fn (MediaCollection $mediaCollection) => $mediaCollection->filter(fn (Media $media): bool => $media->getAttributeValue('collection_name') === $collection),
-                    )
-                    ->when(
-                        $this->hasMediaFilter(),
-                        fn (Collection $media) => $this->filterMedia($media)
-                    )
-                    ->sortBy('order_column')
-                    ->pluck('uuid')
-                    ->all(),
-            ];
-        }
+            foreach ($records as $record) {
+                /** @var Model $record */
+                $state = [
+                    ...$state,
+                    ...$record->getRelationValue('media')
+                        ->when(
+                            ! $collection instanceof AllMediaCollections,
+                            fn (MediaCollection $mediaCollection) => $mediaCollection->filter(fn (Media $media): bool => $media->getAttributeValue('collection_name') === $collection),
+                        )
+                        ->when(
+                            $this->hasMediaFilter(),
+                            fn (Collection $media) => $this->filterMedia($media)
+                        )
+                        ->sortBy('order_column')
+                        ->pluck('uuid')
+                        ->all(),
+                ];
+            }
 
-        return array_unique($state);
+            return array_unique($state);
+        });
     }
 
     /**

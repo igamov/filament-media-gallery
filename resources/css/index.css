@@ -1,12 +1,41 @@
-@import "@fancyapps/ui/dist/fancybox/fancybox.css";
+@import '@fancyapps/ui/dist/fancybox/fancybox.css';
 
-@tailwind utilities;
-.media-dropzone.wm-dropzone {
-  @apply border-primary-600 text-primary-600 dark:border-primary-600 dark:text-primary-600;
-}
 
-.wm-btn {
-  @apply transition text-gray-800/40 hover:text-gray-800 p-1 rounded-full border border-gray-800/40 hover:border-gray-800 dark:text-gray-300/40 dark:hover:text-gray-300   dark:rounded-full dark:border dark:border-gray-300/40 dark:hover:border-gray-300;
+@layer components {
+  .media-dropzone.wm-dropzone {
+    border-color: rgb(var(--primary-600, 234 88 12) / var(--tw-border-opacity, 1));
+    color: rgb(var(--primary-600, 234 88 12) / var(--tw-text-opacity, 1));
+  }
+
+  .wm-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.25rem;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 9999px;
+    border-color: rgb(31 41 55 / 0.4);
+    color: rgb(31 41 55 / 0.4);
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+  }
+
+  .wm-btn:hover {
+    color: rgb(31 41 55);
+    border-color: rgb(31 41 55);
+  }
+
+  .dark .wm-btn {
+    color: rgb(209 213 219 / 0.4);
+    border-color: rgb(209 213 219 / 0.4);
+  }
+
+  .dark .wm-btn:hover {
+    color: rgb(209 213 219);
+    border-color: rgb(209 213 219);
+  }
 }
 
 .gallery-file-upload-wrapper {

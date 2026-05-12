@@ -55,6 +55,7 @@ MediaGallery::make('gallery')
       ->downloadable()
       ->maxSize(1536)
       ->multiple()
+      ->secondary() // optional: same idea as gallery-json-media “secondary” field wrapper
 ```
 
 ### In Filament Tables

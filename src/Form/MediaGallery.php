@@ -6,9 +6,12 @@ namespace Igamov\FilamentMediaGallery\Form;
 
 use Closure;
 use Filament\Forms\Components\BaseFileUpload;
+use Filament\Schemas\Components\Concerns\CanBeSecondary;
+use Filament\Support\Components\Attributes\ExposedLivewireMethod;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use League\Flysystem\UnableToCheckFileExistence;
+use Livewire\Attributes\Renderless;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\MediaCollections\FileAdder;
@@ -16,6 +19,8 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class MediaGallery extends BaseFileUpload
 {
+    use CanBeSecondary;
+
     protected string $view = 'filament-media-gallery::forms.media-file-upload';
 
     protected string | Closure | null $collection = null;
@@ -155,6 +160,8 @@ class MediaGallery extends BaseFileUpload
     /**
      * @return array<array{name: string, size: int, mime_type: string, url: string} | null>
      */
+    #[ExposedLivewireMethod]
+    #[Renderless]
     public function getUploadedFiles(): array
     {
         $files = [];
