@@ -5,16 +5,20 @@ namespace Igamov\FilamentMediaGallery\Tables\Columns;
 use Closure;
 use Filament\Tables\Columns\ImageColumn;
 use Igamov\FilamentMediaGallery\Collections\AllMediaCollections;
+use Igamov\FilamentMediaGallery\Support\Concerns\HasMediaFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Throwable;
 
 class MediaGalleryImageColumn extends ImageColumn
 {
+    use HasMediaFilter;
+
     protected string | AllMediaCollections | Closure | null $collection = null;
 
     protected string | Closure | null $conversion = null;
@@ -106,7 +110,7 @@ class MediaGalleryImageColumn extends ImageColumn
             if ($this->getVisibility() === 'private') {
                 try {
                     return $media->getTemporaryUrl(
-                        now()->addMinutes(5),
+                        now()->addMinutes(config('filament.temporary_file_url_expiry_minutes', 30))->endOfHour(),
                         $conversion ?? '',
                     );
                 } catch (Throwable $exception) {
@@ -146,6 +150,10 @@ class MediaGalleryImageColumn extends ImageColumn
                         ! $collection instanceof AllMediaCollections,
                         fn (MediaCollection $mediaCollection) => $mediaCollection->filter(fn (Media $media): bool => $media->getAttributeValue('collection_name') === $collection),
                     )
+                    ->when(
+                        $this->hasMediaFilter(),
+                        fn (Collection $media) => $this->filterMedia($media)
+                    )
                     ->sortBy('order_column')
                     ->pluck('uuid')
                     ->all(),
@@ -155,21 +163,21 @@ class MediaGalleryImageColumn extends ImageColumn
         return array_unique($state);
     }
 
+    /**
+     * @template TModel of Model
+     *
+     * @param  Builder<TModel>|Relation  $query
+     * @return Builder<TModel>|Relation
+     */
     public function applyEagerLoading(Builder | Relation $query): Builder | Relation
     {
         if ($this->isHidden()) {
             return $query;
         }
 
-        $modifyMediaQuery = static function (Builder | Relation $query): Builder | Relation {
-            $column = 'order_column';
-
-            if ($query instanceof Relation) {
-                return $query->orderBy($query->getRelated()->qualifyColumn($column));
-            }
-
-            return $query->orderBy($column);
-        };
+        // Same as filamentphp/spatie-laravel-media-library-plugin: scope `ordered()` lives on Spatie's Media model.
+        /** @phpstan-ignore-next-line */
+        $modifyMediaQuery = fn (Builder | Relation $query) => $query->ordered();
 
         if ($this->hasRelationship($query->getModel())) {
             $relationshipName = $this->getRelationshipName($query->getModel());
